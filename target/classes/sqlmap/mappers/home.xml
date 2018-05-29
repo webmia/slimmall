@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hkit.slimmall.mapper.HomeMapper">
+	<select id="selectMemberIdx" resultType="int">
+		SELECT idx FROM member 
+		WHERE username=#{username} AND password=#{password}
+	</select>
+	<select id="selectProductOrderViewVO" resultType="kr.hkit.slimmall.member.mapper.ProductOrderViewVO">
+		SELECT * FROM product_order_view 
+		WHERE idx=#{idx}
+	</select>
+	<select id="selectCategoryProducts" resultType="kr.hkit.slimmall.admin.mapper.AdminVO">
+		SELECT * FROM product 
+		WHERE category_idx=#{categoryIdx}
+	</select>
+	
+	<select id="selectProductVOs" resultType="kr.hkit.slimmall.mapper.ProductVO">
+		SELECT * FROM product	
+		<where>
+		<if test="categoryIdx > 0">
+		category_idx=#{categoryIdx} 
+		</if>
+		<if test="keyword != null and keyword != ''">
+		AND `name` LIKE #{keyword}
+		</if>
+		</where>
+		
+
+		
+	</select>
+	
+	<select id="selectMainProductVOs" resultType="kr.hkit.slimmall.mapper.ProductVO">
+		SELECT * FROM product 
+		WHERE `name` LIKE '%${keyword}%'
+	</select>
+	
+	<select id="selectProductProductVOs" resultType="kr.hkit.slimmall.mapper.ProductVO">
+		SELECT * FROM product 
+		WHERE category_idx=#{categoryIdx} 
+		AND `name` LIKE '%${keyword}%'
+	</select>
+</mapper>
